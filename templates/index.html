@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Buy Ratio</title>
+    <link rel="shortcut icon" href="https://i.postimg.cc/L8kLstSS/fav.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        }
+
+        /* Center container */
+        .card-holder {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Card */
+        .card {
+            width: 380px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Title */
+        .card h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        /* Form */
+        #predictForm {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Field wrapper */
+        .big {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* Label text */
+        .card-small {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Inputs & Select */
+        input,
+        select {
+            padding: 10px 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Focus state */
+        input:focus,
+        select:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        /* Button */
+        .btn {
+            margin-top: 15px;
+            padding: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.25s ease, transform 0.15s ease;
+        }
+
+        /* Button hover */
+        .btn:hover {
+            background: #43a047;
+            transform: translateY(-1px);
+        }
+
+        /* Result */
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card-holder">
+        <div class="card">
+            <h3 style="font-size: 30px;">Customer Prediction Ratio</h3>
+            <form id="predictForm">
+                <div class="big">
+                    <p class="card-small">Input Customer's Age</p>
+                    <input type="number" min="18" max="60" id="age" placeholder="Input Age 18 - 60" class="card-small"
+                        required>
+                </div>
+
+                <div class="big">
+                    <p class="card-small">Input Customer's Salary</p>
+                    <input type="number" min="15000" max="150000" id="salary" placeholder="Input Salary 15K - 150K"
+                        class="card-small" required>
+                </div>
+                <div class="big">
+                    <p class="card-small">Select Customer's Gender</p>
+                    <select name="genders" id="gender" class="card-small">
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Predict</button>
+            </form>
+            <p id="result"></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('predictForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                age: Number(age.value),
+                salary: Number(salary.value),
+                gender: gender.value
+            };
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            if (document.getElementById('gender') == 'Male') {
+                document.getElementById('result').innerText = "He will" + result.prediction + "Product";
+            }
+            else {
+                document.getElementById('result').innerText = "She will " + result.prediction + " Product";
+            }
+        });
+        if (document.getElementById('age').addEventListener('click', clear));
+        if (document.getElementById('salary').addEventListener('click', clear));
+        function clear() {
+            document.getElementById('result').innerText = ""
+        };
+    </script>
+</body>
+
+</html>
