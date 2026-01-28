@@ -58,6 +58,7 @@ uvicorn app:app --reload
 📌 Author
 
 Rohan Mulla  
-CSE, Rabindra Maitree University, Kushtia  
+Dept of CSE  
+Rabindra Maitree University, Kushtia  
 For more details, feel free to contact me.  
 mdrohanislam444@gmail.com
